@@ -26,16 +26,23 @@ const data = {
 };
 
 document.addEventListener('DOMContentLoaded', function(){
-	containerTheme.addEventListener('click', function(){
+	containerTheme.addEventListener('click', function(event){
 		let selectItem = this.querySelectorAll('.selected');
 
 		selectItem.forEach(element => {
 			element.classList.remove('selected');
 		});
 
-		console.log(event);
+        if (event.target !== this) {
+            event.target .closest('li') .classList.add('selected');
+            console.log(event.target);
+        }
+
 	});
 });
+
+
+
 
 
 function renderThemeRows(data, container) {
