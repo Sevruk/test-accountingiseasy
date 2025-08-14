@@ -1,6 +1,7 @@
 console.log("-----------START-------------");
 
 const containerTheme = document.getElementById("theme-list");
+const descriptionTheme = document.getElementById("theme-description");
 
 const data = {
     'Тема 1': [
@@ -33,15 +34,24 @@ document.addEventListener('DOMContentLoaded', function(){
 			element.classList.remove('selected');
 		});
 
-        if (event.target !== this) {
-            event.target .closest('li') .classList.add('selected');
-            console.log(event.target);
+        const eventTarget = event.target;
+
+        if (eventTarget !== this) {
+            eventTarget.closest('li').classList.add('selected');
+
+            const themeId = eventTarget.closest('li').dataset.themeId;
+            const subthemeId = eventTarget.closest('li').dataset.subthemeId;
+
+            setThemeDescription(themeId, subthemeId);
         }
 
 	});
 });
 
 
+function setThemeDescription(theme, subtheme){
+    descriptionTheme.innerHTML = data[theme][subtheme].description;
+}
 
 
 
@@ -53,7 +63,7 @@ function renderThemeRows(data, container) {
 			const subThemeTitle = data[theme][i].title;
 			const themeTitle = i === 0 ? theme : '';
 
-			listItem += `<li>
+			listItem += `<li data-theme-id="${theme}" data-subtheme-id="${i}">
 					<div>${themeTitle}</div>
 					<div>${subThemeTitle}</div>
 				</li>`;
