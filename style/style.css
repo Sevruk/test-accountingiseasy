@@ -50,6 +50,10 @@ body{
 	border-bottom: 1px solid slategray;
 }
 
+.theme-content__list li.selected{
+	background-color: gold;
+}
+
 .theme-content__list li div:nth-child(1){
 	width: 100px;
 	border-right: 1px solid slategray;

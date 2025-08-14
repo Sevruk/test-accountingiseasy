@@ -25,6 +25,18 @@ const data = {
     ]
 };
 
+document.addEventListener('DOMContentLoaded', function(){
+	containerTheme.addEventListener('click', function(){
+		let selectItem = this.querySelectorAll('.selected');
+
+		selectItem.forEach(element => {
+			element.classList.remove('selected');
+		});
+
+		console.log(event);
+	});
+});
+
 
 function renderThemeRows(data, container) {
 	let listItem = ''
