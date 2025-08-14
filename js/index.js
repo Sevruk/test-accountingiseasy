@@ -31,15 +31,15 @@ function renderThemeRows(data, container) {
 
 	for (let theme in data){
 		for (let i = 0; i < data[theme].length; i++) {
-			let subThemeTitle = data[theme][i].title;
+			const subThemeTitle = data[theme][i].title;
+			const themeTitle = i === 0 ? theme : '';
 
 			listItem += `<li>
-					<div>${theme}</div>
+					<div>${themeTitle}</div>
 					<div>${subThemeTitle}</div>
 				</li>`;
 		}
 		
-		container.innerHTML = '';
 		container.innerHTML = listItem;
 	}
 	
