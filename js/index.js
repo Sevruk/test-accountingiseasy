@@ -39,6 +39,7 @@ class Theme{
     init(){
         this.renderThemeRows();
         this.setupEventListeners();
+        this.clickFirstItem()
     }
 
     setupEventListeners(){
@@ -84,6 +85,14 @@ class Theme{
             
             this.containerTheme.innerHTML = listItem;
         }
+    }
+
+    clickFirstItem(){
+        const firstItem = this.containerTheme.querySelector('li');
+        if(firstItem){
+            firstItem.click();
+        }
+
     }
 
 }
