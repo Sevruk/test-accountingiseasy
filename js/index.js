@@ -1,7 +1,6 @@
 console.log("-----------START-------------");
 
-const containerTheme = document.getElementById("theme-list");
-const descriptionTheme = document.getElementById("theme-description");
+
 
 const data = {
     'Тема 1': [
@@ -26,9 +25,28 @@ const data = {
     ]
 };
 
-document.addEventListener('DOMContentLoaded', function(){
-	containerTheme.addEventListener('click', function(event){
-		let selectItem = this.querySelectorAll('.selected');
+
+
+class Theme{
+    constructor(containerThemeId, descriptionThemeId, data){
+        this.containerTheme = document.getElementById(containerThemeId);
+        this.descriptionTheme = document.getElementById(descriptionThemeId);
+        this.data = data;
+
+        this.init();
+    }
+
+    init(){
+        this.renderThemeRows();
+        this.setupEventListeners();
+    }
+
+    setupEventListeners(){
+        this.containerTheme.addEventListener('click', (event) => this.handleThemeClick(event));
+    }
+
+    handleThemeClick(event){
+        let selectItem = this.containerTheme.querySelectorAll('.selected');
 
 		selectItem.forEach(element => {
 			element.classList.remove('selected');
@@ -36,42 +54,46 @@ document.addEventListener('DOMContentLoaded', function(){
 
         const eventTarget = event.target;
 
-        if (eventTarget !== this) {
+        if (eventTarget !== this.containerTheme) {
             eventTarget.closest('li').classList.add('selected');
 
             const themeId = eventTarget.closest('li').dataset.themeId;
             const subthemeId = eventTarget.closest('li').dataset.subthemeId;
 
-            setThemeDescription(themeId, subthemeId);
+            this.setThemeDescription(themeId, subthemeId);
         }
+    }
 
-	});
+    setThemeDescription(theme, subtheme){
+        this.descriptionTheme.innerHTML = this.data[theme][subtheme].description;
+    }
+
+    renderThemeRows() {
+        let listItem = ''
+
+        for (let theme in this.data){
+            for (let i = 0; i < this.data[theme].length; i++) {
+                const subThemeTitle = data[theme][i].title;
+                const themeTitle = i === 0 ? theme : '';
+
+                listItem += `<li data-theme-id="${theme}" data-subtheme-id="${i}">
+                        <div>${themeTitle}</div>
+                        <div>${subThemeTitle}</div>
+                    </li>`;
+            }
+            
+            this.containerTheme.innerHTML = listItem;
+        }
+    }
+
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+    const theme = new Theme("theme-list", "theme-description", data);
 });
 
 
-function setThemeDescription(theme, subtheme){
-    descriptionTheme.innerHTML = data[theme][subtheme].description;
-}
+//--------------------------------------------
 
 
 
-function renderThemeRows(data, container) {
-	let listItem = ''
-
-	for (let theme in data){
-		for (let i = 0; i < data[theme].length; i++) {
-			const subThemeTitle = data[theme][i].title;
-			const themeTitle = i === 0 ? theme : '';
-
-			listItem += `<li data-theme-id="${theme}" data-subtheme-id="${i}">
-					<div>${themeTitle}</div>
-					<div>${subThemeTitle}</div>
-				</li>`;
-		}
-		
-		container.innerHTML = listItem;
-	}
-	
-}
-
-renderThemeRows(data, containerTheme);
